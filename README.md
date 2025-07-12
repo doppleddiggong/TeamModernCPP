@@ -2,8 +2,11 @@
 모던Cpp의 문법을 배우자.
 
 ✅ 1강. Modern C++ 문법 입문
+
 목표: C++98 → Modern C++ 문법 전환
+
 핵심: auto, nullptr, range-based for, 참조/포인터, const
+
 실습: 벡터 순회, const 함수 vs 비const 함수
 
 1. 햅과 스택의 구분
