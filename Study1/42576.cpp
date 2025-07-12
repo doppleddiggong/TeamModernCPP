@@ -18,15 +18,13 @@ string solution(vector<string> participant, vector<string> completion)
             map[name]--;
 
             if (map[name] == 0)
-				map.erase(name);    
-		}
+		map.erase(name);    
+	}
     }
 
     return map.begin()->first;
 }
 
 int main(void) {
-
-    std::cout << solution(vector<string> {"mislav", "stanko", "mislav", "ana"}, 
-        vector<string>{"stanko", "ana", "mislav"});
+    std::cout << solution(vector<string> {"mislav", "stanko", "mislav", "ana"}, vector<string>{"stanko", "ana", "mislav"});
 }
