@@ -1,4 +1,4 @@
-﻿#include <iostream>
+#include <iostream>
 #include <windows.h>
 #include <psapi.h>
 
@@ -190,6 +190,97 @@ namespace dopple
     };
 
 
+    // int* const 
+    class ConstPractice9
+    {
+    private:
+        int m_nValue;
+
+    public:
+        ConstPractice9() : m_nValue(0) {}
+
+        int Practice(int* const practice)
+        {
+            // 상수 포인터 to int
+            m_nValue += *practice;
+            *practice = m_nValue;
+//			practice = &m_nValue; // ❌ 컴파일 에러: const 포인터는 재할당 불가
+            return m_nValue;
+        }
+    };
+
+    // const int*
+    class ConstPractice10
+    {
+    private:
+        int m_nValue;
+
+    public:
+        ConstPractice10() : m_nValue(0) {}
+
+		// int const* practice
+        int Practice(const int* practice)
+        {
+            // 포인터 to 상수 int
+            //m_nValue += practice;
+            //x = m_nValue; // ❌ 컴파일 에러
+            return m_nValue;
+        }
+    };
+
+    // const int* const
+    class ConstPractice11
+    {
+    private:
+        int m_nValue;
+
+    public:
+        ConstPractice11() : m_nValue(0) {}
+
+        // int const* practice
+        int Practice(const int* const practice)
+        {
+            // 포인터 to 상수 int
+            //m_nValue += practice;
+            //x = m_nValue; // ❌ 컴파일 에러
+            return m_nValue;
+        }
+    };
+
+    // int& const
+    class ConstPractice12
+    {
+    private:
+        int m_nValue;
+
+    public:
+        ConstPractice12() : m_nValue(0) {}
+
+        int Practice(const int& const practice)
+        {
+            m_nValue += practice;
+            //x = m_nValue; // ❌ 컴파일 에러
+            return m_nValue;
+        }
+    };
+
+    // const int const
+    class ConstPractice13
+    {
+    private:
+        int m_nValue;
+
+    public:
+        ConstPractice13() : m_nValue(0) {}
+
+        int Practice(const int const practice)
+        {
+            m_nValue += practice;
+            //x = m_nValue; // ❌ 컴파일 에러
+            return m_nValue;
+        }
+    };
+
     class People
     {
     private:
@@ -198,12 +289,31 @@ namespace dopple
     public:
 		People() : m_nAge(100) {}
 		People(int age) : m_nAge(age) {}
+
+        void SetAge(int age)
+        {
+			m_nAge = age;
+        }
+
+        void SetAge(char* age)
+        {
+			m_nAge = atoi(age);
+        }
     };
 }
 
 int main()
 {
     std::cout << "Hello World!\n";
+
+    dopple::ConstPractice1* p1 = nullptr;  
+
+    dopple::ConstPractice1 value = dopple::ConstPractice1();
+    dopple::ConstPractice1& p2 = value;
+
+    //dopple::ConstPractice1& p2 = dopple::ConstPractice1();
+
+
 
 #pragma region 힙_스택
     // 스택에 생성
@@ -216,6 +326,19 @@ int main()
 #pragma endregion
 
 #pragma region 포인터
+    //int x = 10;
+    //int* px = &x;
+    //int px = &x;
+    //int& rx = x;
+
+    int* px = new int(100);
+    int& r1 = *px;  // r: 스택에 있지만, *px는 힙의 데이터
+//    int& r2 = px;  // r: 스택에 있지만, *px는 힙의 데이터
+
+
+    //dopple::ConstPractice1 p2 = dopple::ConstPractice1();
+    //dopple::ConstPractice1 p3 = new dopple::ConstPractice1();
+
     //dopple::ConstPractice1* p2 = nullptr;   
 
     //if(p2 == nullptr)
@@ -248,9 +371,58 @@ int main()
     std::cout << static_cast<void*>(np) << std::endl;
     std::cout << NULL << std::endl;
     std::cout << 0 << std::endl;*/
+
+
+    //dopple::People people;
+    //people.SetAge(NULL);
+    //people.SetAge(nullptr);
+
+    //std::nullptr_t np = nullptr;
+
+    std::cout << std::is_same<decltype(nullptr), std::nullptr_t>::value << std::endl;
 #pragma endregion
 
 #pragma region CONST
+
+    int x = 10;
+    int y = 20;
+    int& r = x;
+
+    r = y;      // x = y 와 동일, r은 여전히 x를 참조
+
+    int tmp = 5;
+    auto tmp2 = new int(5);
+    auto tmp3 = new int(5);
+
+    const int        practice1 = tmp;
+    int const        practice2 = tmp;
+    const int const  practice3 = tmp;
+
+    const int&       practice4 = tmp;
+    int& const       practice5 = tmp;
+    const int& const practice6 = tmp;
+
+    int* const       practice7 = tmp2;
+    const int* const practice8 = tmp2;
+    const int*       practice9 = tmp2;
+
+    //practice1 = 100;
+    //practice2 = 100;
+    //practice3 = 100;
+
+    //practice4 = 100;
+    //practice5 = 100;
+    //practice6 = 100;
+
+    //*practice7 = 100;
+    //*practice8 = 100;
+    //*practice9 = 100;
+
+    //*practice10 = 100;
+    //*practice11 = 100;
+    //*practice12 = 100;
+
+
     // void Practice(int x)
     // void Practice(int& x)
     // void Practice(const int x)
